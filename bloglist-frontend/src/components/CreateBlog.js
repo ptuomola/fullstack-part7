@@ -1,25 +1,31 @@
 import React from 'react'
 import { useField, filterAttr } from '../hooks'
-import PropTypes from 'prop-types'
+import { createBlog } from '../reducers/blogReducer'
+import { showError, showSuccess } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const CreateBlog = ({ handleCreate }) =>
+const CreateBlog = (props) =>
 {
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
 
-  const submitNewNote = async (event) => {
+  const submitNewBlog = async (event) => {
     event.preventDefault()
-    handleCreate(title.value, author.value, url.value)
+    props.createBlog({ title: title.value, author: author.value, url: url.value, user: props.user })
     title.reset()
     author.reset()
     url.reset()
+    props.newNoteRef.current.toggleVisibility()
   }
+
+  // newBlog.user = user
+
 
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={submitNewNote}>
+      <form onSubmit={submitNewBlog}>
         <div>
           title:
           <input {...filterAttr(title)} />
@@ -39,9 +45,11 @@ const CreateBlog = ({ handleCreate }) =>
   )
 }
 
-CreateBlog.propTypes = {
-  handleCreate: PropTypes.func.isRequired,
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
 }
 
-
-export default CreateBlog
+export default connect(mapStateToProps,
+  { createBlog, showError, showSuccess })(CreateBlog)

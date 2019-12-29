@@ -1,12 +1,29 @@
 import React, { useState } from 'react'
-
+import { connect } from 'react-redux'
+import { like, remove } from '../reducers/blogReducer'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, handleLike, handleRemove, user }) => {
+const Blog = (props) => {
   const [showDetail, setShowDetail] = useState(false)
+  const blog = props.blog
+  const user = props.user
 
   const toggleDetail = () => {
     setShowDetail(!showDetail)
+  }
+
+  const handleLike = (blog, event) => {
+    event.stopPropagation()
+    props.like(blog)
+  }
+
+  const handleRemove = (blog, event) => {
+    event.stopPropagation()
+
+    if(!window.confirm('remove blog ' + blog.title + ' by ' + blog.author))
+      return
+
+    props.remove(blog)
   }
 
   const blogStyle = {
@@ -39,9 +56,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 }
 
-export default Blog
+export default connect(null, { like, remove })(Blog)
