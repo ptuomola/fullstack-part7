@@ -26,17 +26,17 @@ const CreateBlog = (props) =>
       <Form onSubmit={submitNewBlog}>
         <Form.Group>
           <Form.Label>title</Form.Label>
-          <Form.Control type="input" {...filterAttr(title)} />
+          <Form.Control type="input" {...filterAttr(title)} id='title'/>
         </Form.Group>
         <Form.Group>
           <Form.Label>author</Form.Label>
-          <Form.Control type="input" {...filterAttr(author)} />
+          <Form.Control type="input" {...filterAttr(author)} id='author'/>
         </Form.Group>
         <Form.Group>
           <Form.Label>url</Form.Label>
-          <Form.Control type="input" {...filterAttr(url)} />
+          <Form.Control type="input" {...filterAttr(url)} id='url'/>
         </Form.Group>
-        <Button variant="primary" type="submit">create</Button>
+        <Button variant="primary" type="submit" id="createBlog">create</Button>
       </Form>
     </div>
   )

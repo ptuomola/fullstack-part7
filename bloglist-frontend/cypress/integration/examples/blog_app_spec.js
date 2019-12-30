@@ -1,5 +1,12 @@
-describe('Blog ', function() {
+describe('Blog app', function() {
   beforeEach(function() {
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    const user = {
+      name: 'Petri Tuomola',
+      username: 'ptuomola',
+      password: 'silent'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', user)
     cy.visit('http://localhost:3000')
   })
 
@@ -19,5 +26,18 @@ describe('Blog ', function() {
     cy.get('#password').type('silent')
     cy.contains('login').click()
     cy.contains('Petri Tuomola logged in')
+  })
+
+  it('logged in user can create a blog', function() {
+    cy.get('#username').type('ptuomola')
+    cy.get('#password').type('silent')
+    cy.contains('login').click()
+    cy.contains('Petri Tuomola logged in')
+    cy.contains('create new').click()
+    cy.get('#title').type('This is a test title for a blog')
+    cy.get('#author').type('Test author')
+    cy.get('#url').type('http://www.test.com')
+    cy.get('#createBlog').click()
+    cy.contains('This is a test title for a blog Test author')
   })
 })
