@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getBlogForId } from '../reducers/blogReducer.js'
-import { like, remove } from '../reducers/blogReducer'
+import { like, remove, comment } from '../reducers/blogReducer'
 import { withRouter } from 'react-router-dom'
+import { useField, filterAttr } from '../hooks'
 
 const Blog = withRouter((props) => {
+  const newComment = useField('text')
   const blog = props.blog
   const user = props.user
 
@@ -26,6 +28,12 @@ const Blog = withRouter((props) => {
     props.history.push('/')
   }
 
+  const handleComment = (blog) =>
+  {
+    props.comment(blog, newComment.value)
+    newComment.reset()
+  }
+
   return (
     <div>
       <h2>{blog.title}</h2>
@@ -37,6 +45,10 @@ const Blog = withRouter((props) => {
         : '' }
       <p/>
       <b>comments</b>
+      <form onSubmit={() => handleComment(blog)}>
+        <input {...filterAttr(newComment)}/>
+        <button type="submit">add comment</button>
+      </form>
       <ul>
         { blog.comments.map(comment => <li key={comment}>{comment}</li>) }
       </ul>
@@ -51,4 +63,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, { like, remove })(Blog)
+export default connect(mapStateToProps, { like, remove, comment })(Blog)
