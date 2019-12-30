@@ -21,11 +21,11 @@ const LoginForm = (props) => {
       <Form onSubmit={handleLogin}>
         <Form.Group>
           <Form.Label>username</Form.Label>
-          <Form.Control {...filterAttr(username)} />
+          <Form.Control {...filterAttr(username)} id="username"/>
         </Form.Group>
         <Form.Group>
           <Form.Label>password</Form.Label>
-          <Form.Control {...filterAttr(password)} />
+          <Form.Control {...filterAttr(password)} id="password" />
         </Form.Group>
         <Button variant="primary" type="submit">login</Button>
       </Form>
