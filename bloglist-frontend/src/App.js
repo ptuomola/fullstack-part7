@@ -11,7 +11,7 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, logoutUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Nav, Navbar, Button, Jumbotron } from 'react-bootstrap'
+import { Nav, Navbar, Jumbotron } from 'react-bootstrap'
 
 
 const App = (props) => {
