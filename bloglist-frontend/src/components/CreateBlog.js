@@ -3,6 +3,7 @@ import { useField, filterAttr } from '../hooks'
 import { createBlog } from '../reducers/blogReducer'
 import { showError, showSuccess } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
 
 const CreateBlog = (props) =>
 {
@@ -19,28 +20,24 @@ const CreateBlog = (props) =>
     props.newNoteRef.current.toggleVisibility()
   }
 
-  // newBlog.user = user
-
-
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={submitNewBlog}>
-        <div>
-          title:
-          <input {...filterAttr(title)} />
-        </div>
-        <div>
-          author:
-          <input {...filterAttr(author)} />
-        </div>
-        <div>
-          url:
-          <input {...filterAttr(url)} />
-        </div>
-
-        <button type="submit">create</button>
-      </form>
+      <Form onSubmit={submitNewBlog}>
+        <Form.Group>
+          <Form.Label>title</Form.Label>
+          <Form.Control type="input" {...filterAttr(title)} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>author</Form.Label>
+          <Form.Control type="input" {...filterAttr(author)} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>url</Form.Label>
+          <Form.Control type="input" {...filterAttr(url)} />
+        </Form.Group>
+        <Button variant="primary" type="submit">create</Button>
+      </Form>
     </div>
   )
 }

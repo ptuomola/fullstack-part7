@@ -4,6 +4,7 @@ import { getBlogForId } from '../reducers/blogReducer.js'
 import { like, remove, comment } from '../reducers/blogReducer'
 import { withRouter } from 'react-router-dom'
 import { useField, filterAttr } from '../hooks'
+import { Form, Button, Table } from 'react-bootstrap'
 
 const Blog = withRouter((props) => {
   const newComment = useField('text')
@@ -36,22 +37,33 @@ const Blog = withRouter((props) => {
 
   return (
     <div>
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a><br/>
-      {blog.likes} likes <button onClick={(event) => handleLike(blog, event)}>like</button><br/>
-      added by {blog.user.name}<br/>
-      { user.username === blog.user.username ?
-        <button onClick={(event) => handleRemove(blog, event)}>remove</button>
-        : '' }
+      <Table striped>
+        <thead>
+          <tr><th className="lead">Title</th><th className="lead" colSpan="2">{blog.title}</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>URL</td><td colSpan="2"><a href={blog.url}>{blog.url}</a></td></tr>
+          <tr><td>Likes</td><td>{blog.likes}</td><td><Button variant="primary" onClick={(event) => handleLike(blog, event)}>like</Button></td></tr>
+          <tr><td>Added by</td><td>{blog.user.name}</td><td>{ user.username === blog.user.username ?
+            <Button variant="danger" onClick={(event) => handleRemove(blog, event)}>remove</Button>
+            : '' }
+          </td></tr>
+        </tbody>
+      </Table>
       <p/>
-      <b>comments</b>
-      <form onSubmit={() => handleComment(blog)}>
-        <input {...filterAttr(newComment)}/>
-        <button type="submit">add comment</button>
-      </form>
-      <ul>
-        { blog.comments.map(comment => <li key={comment}>{comment}</li>) }
-      </ul>
+      <h4>comments</h4>
+      <Form inline='true' onSubmit={() => handleComment(blog)}>
+        <Form.Group>
+          <Form.Control type="input" {...filterAttr(newComment)}/>
+          <Button variant="primary" type="submit">add comment</Button>
+        </Form.Group>
+      </Form>
+      <p></p>
+      <Table striped>
+        <tbody>
+          { blog.comments.map(comment => <tr key={comment}><td>{comment}</td></tr>) }
+        </tbody>
+      </Table>
     </div>
   )
 })

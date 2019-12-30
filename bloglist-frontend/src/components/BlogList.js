@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import BlogRow from './BlogRow'
 import CreateBlog from './CreateBlog'
 import Togglable from './Togglable'
+import { Table } from 'react-bootstrap'
 
 const BlogList = (props) => {
   const blogs = props.blogs
@@ -13,7 +14,13 @@ const BlogList = (props) => {
       <Togglable buttonLabel="create new" ref={newNoteRef}>
         <CreateBlog newNoteRef={newNoteRef}/>
       </Togglable>
-      {blogs.map(blog => <BlogRow key={blog.id} blog={blog} />)}
+      <p/>
+      <Table striped>
+        <tbody>
+          {blogs.map(blog =>
+            <tr key={blog.id}><td><BlogRow blog={blog} /></td></tr>)}
+        </tbody>
+      </Table>
     </div>
   )
 }

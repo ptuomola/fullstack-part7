@@ -11,6 +11,7 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, logoutUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Nav, Navbar, Button, Jumbotron } from 'react-bootstrap'
 
 
 const App = (props) => {
@@ -45,14 +46,35 @@ const App = (props) => {
   const padding = { padding: 5 }
 
   return (
-    <div>
+    <div className="container">
       <Router>
-        <div>
-          <Link style={padding} to="/">blogs</Link>
-          <Link style={padding} to="/users">users</Link>
-          { props.user !== null ? <> { props.user.name } logged in <button onClick={handleLogout}>logout</button> </> : '' }
-        </div>
-        <h2>blog app</h2>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto" as="ul">
+              <Nav.Link style={padding} href="#" as="li">
+                <Link to="/">blogs</Link>
+              </Nav.Link>
+              <Nav.Link style={padding} href="#" as="li">
+                <Link to="/users">users</Link>
+              </Nav.Link>
+              {props.user !== null ?
+                <>
+                  <Nav.Link style={padding} href="#" as="li" disabled>
+                    {props.user.name} logged in
+                  </Nav.Link>
+                  <Nav.Link style={padding} href="#" as="li">
+                    <Link to="#" onClick={handleLogout}>logout</Link>
+                  </Nav.Link>
+                </>
+                : ''
+              }
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <Jumbotron>
+          <h1>blog app</h1>
+        </Jumbotron>
         <Notification/>
         { props.user === null ?
           <LoginForm />
