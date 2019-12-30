@@ -31,6 +31,7 @@ const Blog = withRouter((props) => {
 
   const handleComment = (blog) =>
   {
+    event.preventDefault()
     props.comment(blog, newComment.value)
     newComment.reset()
   }
@@ -43,7 +44,7 @@ const Blog = withRouter((props) => {
         </thead>
         <tbody>
           <tr><td>URL</td><td colSpan="2"><a href={blog.url}>{blog.url}</a></td></tr>
-          <tr><td>Likes</td><td>{blog.likes}</td><td><Button variant="primary" onClick={(event) => handleLike(blog, event)}>like</Button></td></tr>
+          <tr><td>Likes</td><td>{blog.likes}</td><td><Button id="likeButton" variant="primary" onClick={(event) => handleLike(blog, event)}>like</Button></td></tr>
           <tr><td>Added by</td><td>{blog.user.name}</td><td>{ user.username === blog.user.username ?
             <Button variant="danger" onClick={(event) => handleRemove(blog, event)}>remove</Button>
             : '' }
@@ -54,7 +55,7 @@ const Blog = withRouter((props) => {
       <h4>comments</h4>
       <Form inline='true' onSubmit={() => handleComment(blog)}>
         <Form.Group>
-          <Form.Control type="input" {...filterAttr(newComment)}/>
+          <Form.Control id='newComment' type="input" {...filterAttr(newComment)}/>
           <Button variant="primary" type="submit">add comment</Button>
         </Form.Group>
       </Form>

@@ -13,7 +13,7 @@ const CreateBlog = (props) =>
 
   const submitNewBlog = async (event) => {
     event.preventDefault()
-    props.createBlog({ title: title.value, author: author.value, url: url.value, user: props.user })
+    props.createBlog({ title: title.value, author: author.value, url: url.value, user: props.user, comments: [] })
     title.reset()
     author.reset()
     url.reset()
