@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import { getBlogForId } from '../reducers/blogReducer.js'
 import { like, remove } from '../reducers/blogReducer'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 
-const Blog = (props) => {
-  const [showDetail, setShowDetail] = useState(false)
+const Blog = withRouter((props) => {
   const blog = props.blog
   const user = props.user
 
-  const toggleDetail = () => {
-    setShowDetail(!showDetail)
-  }
+  if(blog === undefined)
+    return null
 
   const handleLike = (blog, event) => {
     event.stopPropagation()
@@ -24,39 +23,27 @@ const Blog = (props) => {
       return
 
     props.remove(blog)
-  }
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+    props.history.push('/')
   }
 
   return (
-    <div style={blogStyle}>
-      <div className="clickableRow" onClick={() => toggleDetail()}>
-        {blog.title} {blog.author}
-        { showDetail ?
-          <div>
-            <a href={blog.url}>{blog.url}</a><br/>
-            {blog.likes} likes <button onClick={(event) => handleLike(blog, event)}>like</button><br/>
-            added by {blog.user.name}<br/>
-            { user.username === blog.user.username ?
-              <button onClick={(event) => handleRemove(blog, event)}>remove</button>
-              : '' }
-          </div>
-          : <div></div>
-        }
-      </div>
+    <div>
+      <h2>{blog.title}</h2>
+      <a href={blog.url}>{blog.url}</a><br/>
+      {blog.likes} likes <button onClick={(event) => handleLike(blog, event)}>like</button><br/>
+      added by {blog.user.name}<br/>
+      { user.username === blog.user.username ?
+        <button onClick={(event) => handleRemove(blog, event)}>remove</button>
+        : '' }
     </div>
   )
+})
+
+const mapStateToProps = (state, props) => {
+  return {
+    blog: getBlogForId(state, props.blogId),
+    user: state.user
+  }
 }
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
-}
-
-export default connect(null, { like, remove })(Blog)
+export default connect(mapStateToProps, { like, remove })(Blog)

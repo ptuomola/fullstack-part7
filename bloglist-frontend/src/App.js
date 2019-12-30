@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import Users from './components/Users'
+import User from './components/User'
 import Blog from './components/Blog'
-import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
+import BlogList from './components/BlogList'
 import blogService from './services/blogs'
-import { showError, showSuccess } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/usersReducer'
 import { setUser, logoutUser } from './reducers/userReducer'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
 
 const App = (props) => {
 
@@ -25,31 +28,40 @@ const App = (props) => {
     props.initializeBlogs()
   }, [])
 
+  useEffect(() => {
+    props.initializeUsers()
+  }, [])
+
+
   const handleLogout = async(event) =>
   {
     event.preventDefault()
     props.logoutUser()
   }
 
-  const newNoteRef = React.createRef()
+  const padding = { padding: 5 }
 
   return (
     <div>
-      <h2>blogs</h2>
-      <Notification/>
-      { props.user === null ?
-        <LoginForm />
-        :
+      <Router>
         <div>
-          <p>{ props.user.name } logged in <button onClick={handleLogout}>logout</button></p>
-          <Togglable buttonLabel="new note" ref={newNoteRef}>
-            <CreateBlog newNoteRef={newNoteRef}/>
-          </Togglable>
-          {props.blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-            <Blog key={blog.id} blog={blog} user={props.user}/>
-          )}
+          <Link style={padding} to="/">blogs</Link>
+          <Link style={padding} to="/users">users</Link>
+          { props.user !== null ? <> { props.user.name } logged in <button onClick={handleLogout}>logout</button> </> : '' }
         </div>
-      }
+        <h2>blog app</h2>
+        <Notification/>
+        { props.user === null ?
+          <LoginForm />
+          :
+          <div>
+            <Route exact path="/" render={() => <BlogList />} />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route path="/users/:id" render={({ match }) => <User userId={match.params.id} /> }/>
+            <Route path="/blogs/:id" render={({ match }) => <Blog blogId={match.params.id} /> }/>
+          </div>
+        }
+      </Router>
     </div>
   )
 }
@@ -61,4 +73,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { showSuccess, showError, initializeBlogs, setUser, logoutUser })(App)
+export default connect(mapStateToProps, { initializeBlogs, initializeUsers, setUser, logoutUser })(App)

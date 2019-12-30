@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import Blog from './Blog'
+import BlogList from './BlogList'
 
-describe('<Blog />', () => {
+describe('<BlogList />', () => {
   test('renders by default only author and title', () => {
     const blog = {
       author: 'test author',
@@ -19,7 +19,7 @@ describe('<Blog />', () => {
     const mockHandler = jest.fn()
 
     const component = render(
-      <Blog blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
+      <BlogList blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
     )
 
     expect(component.container).toHaveTextContent('test author')
@@ -46,7 +46,7 @@ describe('<Blog />', () => {
     const mockHandler = jest.fn()
 
     const component = render(
-      <Blog blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
+      <BlogList blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
     )
 
     const div = component.container.querySelector('.clickableRow')
@@ -78,7 +78,7 @@ describe('<Blog />', () => {
     const mockHandler = jest.fn()
 
     const component = render(
-      <Blog blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
+      <BlogList blog={blog} handleLike={mockHandler} handleRemove={mockHandler} user={user}/>
     )
 
     const div = component.container.querySelector('.clickableRow')

@@ -11,8 +11,6 @@ export const like = (blog) => {
     const updatedBlog = await blogService.update(changedBlog)
     updatedBlog.user = changedBlog.user
 
-    console.log('updatedBlog ', updatedBlog)
-
     dispatch({
       type: 'LIKE',
       data: updatedBlog
@@ -52,6 +50,10 @@ export const createBlog = (blog) => {
       dispatch(showError('create failed', 5))
     }
   }
+}
+
+export const getBlogForId = (state, blogId) => {
+  return state.blogs.find(val => val.id === blogId)
 }
 
 export const initializeBlogs = () => {
