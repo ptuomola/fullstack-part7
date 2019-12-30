@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InB0dW9tb2xhIiwiaWQiOiI1ZTAwNDc0N2JmMDNkMjE3OWU0Njg4OGYiLCJpYXQiOjE1NzcwOTAzNjl9.hIKh0DFpGrKsQfDOVirtZLvJ7NFjUkvOe969vAjzTgw
+
+{
+  "title": "Tesst blog entry with user with authorization",
+  "author": "Petri Tuomola",
+  "url": "http://localhost:3003/blah",
+  "likes": 123
+}

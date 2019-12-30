@@ -22,14 +22,17 @@ const App = (props) => {
       props.setUser(user)
       blogService.setToken(user.token)
     }
+  // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     props.initializeBlogs()
+  // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     props.initializeUsers()
+  // eslint-disable-next-line
   }, [])
 
 

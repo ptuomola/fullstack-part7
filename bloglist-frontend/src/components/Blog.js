@@ -35,6 +35,11 @@ const Blog = withRouter((props) => {
       { user.username === blog.user.username ?
         <button onClick={(event) => handleRemove(blog, event)}>remove</button>
         : '' }
+      <p/>
+      <b>comments</b>
+      <ul>
+        { blog.comments.map(comment => <li key={comment}>{comment}</li>) }
+      </ul>
     </div>
   )
 })
